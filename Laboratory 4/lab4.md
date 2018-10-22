@@ -25,7 +25,7 @@ Resultat:
 
 
 
-![Task4](images/task4.png)
+![Task4](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task4.png)
 
 
 
@@ -37,13 +37,25 @@ la cel putin o proba.
 
 Interogarea:
 
+``` sql
+select profesori.Nume_Profesor,profesori.Prenume_Profesor 
+from profesori where exists
+	(select studenti_reusita.Id_Disciplina 
+	from studenti_reusita 
+	where studenti_reusita.Nota<5 and studenti_reusita.Id_Student=
+		(select Id_Student 
+		from studenti 
+		where studenti_reusita.Id_Student=studenti.Id_Student 
+		and studenti.Nume_Student='Cosovanu'))
+```
+
 
 
 Resultat:
 
 
 
-![Task19](images/task19.png)
+![Task19](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task19.png)
 
 
 
@@ -55,12 +67,20 @@ Interogarea:
 
 
 
+``` sql 
+select Disciplina from discipline as ds 
+	where 
+	(select count(distinct sr.Id_Profesor) from studenti_reusita sr
+	inner join profesori as pr on sr.Id_Profesor=pr.Id_Profesor
+	where sr.Id_Disciplina=ds.Id_Disciplina
+	)>1
+```
 
 Resultat:
 
 
 
-![Task24](images/task24.png)
+![Task24](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task24.png)
 
 
 
@@ -74,9 +94,21 @@ mai mari de 7.0.
 Interogarea:
 
 
+``` sql
+select d.Disciplina, AVG(Nota) as Media_notelor 
+	from discipline as d
+inner join studenti_reusita as s
+	on s.Id_Disciplina=d.Id_Disciplina
+group by Disciplina
+having Avg(Nota)>7
+```
 
 Resultat:
 
 
 
-![Task35](images/task35.png)
+![Task35](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task35.png)
+
+
+The sql file you can find at : [Sql File Lab4](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/sql%20file/mylab4.sql)
+
