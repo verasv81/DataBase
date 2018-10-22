@@ -21,7 +21,7 @@ where DATALENGTH(discipline.Disciplina)>20;
 
 
 
-Resultat:
+Rezultat:
 
 
 
@@ -51,7 +51,7 @@ from profesori where exists
 
 
 
-Resultat:
+Rezultat:
 
 
 
@@ -76,7 +76,7 @@ select Disciplina from discipline as ds
 	)>1
 ```
 
-Resultat:
+Rezultat:
 
 
 
@@ -103,7 +103,7 @@ group by Disciplina
 having Avg(Nota)>7
 ```
 
-Resultat:
+Rezultat:
 
 
 
