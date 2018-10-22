@@ -10,9 +10,9 @@ setting the increase of secondary files from 64 MB with the limit of 1024 MB.
      
 
 
-![Screenshot1](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_files.PNG)
+![Screenshot1](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_files.png)
 
-![Screenshot2](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_filegroup.PNG)
+![Screenshot2](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_filegroup.png)
 
 
 
@@ -22,7 +22,7 @@ this database
 
 
 
-![Screenshot3](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_files.PNG)
+![Screenshot3](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_files.png)
 
 
 
@@ -34,9 +34,9 @@ Execute the plan.
 
 
 
-![Screenshot4](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_plan.PNG)
+![Screenshot4](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_plan.png)
 
-![Screenshot5](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_plan_report.PNG)
+![Screenshot5](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db1_plan_report.png)
 
 
 
@@ -55,11 +55,11 @@ logged in extended mode. Execute the plan and check the result in log file.
 
 
 
-![Screenshot6](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_jobs.PNG)
+![Screenshot6](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_jobs.png)
 
-![Screenshot7](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_clean.PNG)
+![Screenshot7](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_clean.png)
 
-![Screenshot8](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_index.PNG)
+![Screenshot8](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_index.png)
 
-![Screenshot9](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_report.PNG)
+![Screenshot9](https://github.com/verasv81/DataBase/blob/master/Laboratory1/images/db2_plan_report.png)
 
