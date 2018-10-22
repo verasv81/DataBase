@@ -25,7 +25,7 @@ Resultat:
 
 
 
-![Task4](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task4.png)
+![Task4](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task4.PNG)
 
 
 
@@ -55,7 +55,7 @@ Resultat:
 
 
 
-![Task19](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task19.png)
+![Task19](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task19.PNG)
 
 
 
@@ -80,7 +80,7 @@ Resultat:
 
 
 
-![Task24](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task24.png)
+![Task24](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task24.PNG)
 
 
 
@@ -107,7 +107,7 @@ Resultat:
 
 
 
-![Task35](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task35.png)
+![Task35](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task35.PNG)
 
 
 The sql file you can find at : [Sql File Lab4](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/sql%20file/mylab4.sql)
