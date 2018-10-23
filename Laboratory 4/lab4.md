@@ -29,9 +29,9 @@ Rezultat:
 
 
 
-19. Gasiti numele si prenumele profesorilor, care au predat discipline, in care studentul "Cosovanu" a
-fost respins (nota <5) 
-la cel putin o proba.
+19. Gasiți numele și prenumele profesorilor, care au predat discipline, în care studentul "Cosovanu" a
+ fost respins (nota <5) 
+la cel puțin o probă.
 
 
 
@@ -59,7 +59,7 @@ Rezultat:
 
 
 
-24. Sa se afisase lista disciplinelor (Disciplina) predate de cel putin doi profesori.
+24. Să se afișaze lista disciplinelor (Disciplina) predate de cel puțin doi profesori.
 
 
 
@@ -86,7 +86,7 @@ Rezultat:
 
 
 
-35. Gasiti denumirile disciplinelor si media notelor pe disciplina. Afisati numai disciplinele cu medii
+35. Găsiți denumirile disciplinelor și media notelor pe disciplină. Afișați numai disciplinele cu medii 
 mai mari de 7.0.
 
 
@@ -110,5 +110,5 @@ Rezultat:
 ![Task35](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/images/task35.PNG)
 
 
-The sql file you can find at : [Sql File Lab4](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/sql%20file/mylab4.sql)
+Fișierul SQL îl puteți găsi : [Sql File Lab4](https://github.com/verasv81/DataBase/blob/master/Laboratory%204/sql%20file/mylab4.sql)
 
