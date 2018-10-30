@@ -133,7 +133,7 @@ Rezultat(sarcina 1):
 
 ![Task4_s1-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-1.PNG)
 
-![Task4_s-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-2.PNG)
+![Task4_s-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/task4-2.PNG)
 
 Interogare(sarcina 2):
 
