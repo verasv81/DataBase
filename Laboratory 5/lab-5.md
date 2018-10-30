@@ -29,7 +29,7 @@ PRINT 'Mai mare = '+CAST(@MAI_MARE AS VARCHAR(2));
 
 Rezultat:
 
-![Task1][https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task1.PNG]
+![Task1](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task1.PNG)
 
 
 2. Afisati primele zece date (numele, prenumele studentului) in functie de valoarea notei (cu exceptia
@@ -55,7 +55,7 @@ Nume_Student,Prenume_Student, Nota
 
 Rezultat:
 
-![Task2][https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task2.PNG]
+![Task2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task2.PNG)
 
 3. Rezolvati aceesi sarcina, 1, apeland la structura selectiva CASE.
 
@@ -84,7 +84,7 @@ PRINT 'Mai mare = '+CAST(@MAI_MARE AS VARCHAR(2));
 
 Rezultat:
 
-![Task3][https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task3.PNG]
+![Task3](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task3.PNG)
 
 4. Modificati exercitiile din sarcinile 1 si 2 pentru a include procesarea erorilor cu TRY si CATCH, si
 RAISERRROR.
@@ -131,9 +131,9 @@ if @N1=@N2 and @N1=@N3
 
 Rezultat(sarcina 1):
 
-![Task4_s1-1][https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-1.PNG]
+![Task4_s1-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-1.PNG)
 
-![Task4_s1-2][https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-2.PNG]
+![Task4_s1-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-2.PNG)
 
 Interogare(sarcina 2):
 
@@ -180,6 +180,6 @@ END
 
 Rezultat(sarcina 2):
 
-![Task4_s2-1][https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-3.PNG]
+![Task4_s2-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-3.PNG)
 
-![Task4_s2-2][https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-4.PNG]
+![Task4_s2-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-4.PNG)
