@@ -6,7 +6,7 @@ This is a repository where are stored the laboratory works for Database
 
 ## Laboratory 2
 
-Link:[Laboratory 2](https://github.com/verasv81/DataBase/blob/master/Laboratory%201/Lab2.md)
+Link:[Laboratory 2](https://github.com/verasv81/DataBase/blob/master/Laboratory%202/Lab2.md)
 
 
 
