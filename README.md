@@ -32,3 +32,10 @@ Link: [Laboratory 4](https://github.com/verasv81/DataBase/blob/master/Laboratory
 
 Link: [Laboratory 5](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/lab-5.md)
 
+
+
+## Laboratory 6
+
+
+Link: [Laboratory 6](https://github.com/verasv81/DataBase/blob/master/Laboratory%206/Lab6.md)
+
