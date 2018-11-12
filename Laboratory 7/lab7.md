@@ -44,7 +44,7 @@ Id_ Grupa din tabelului orarul cu atributele tabelelor respective.
 
 Rezultat:
 
-![Task5](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task-5.PNG)
+![Task5](https://github.com/verasv81/DataBase/blob/master/Laboratory%207/images/Task-5.PNG)
 
 
 6. Creați, în baza de date universitatea, trei scheme noi: cadre_didactice, plan_studii și studenti. 
@@ -75,7 +75,7 @@ ALTER SCHEMA studenti TRANSFER dbo.studenti_reusita
 
 Rezultat:
 
-![Task6](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task-6.PNG)
+![Task6](https://github.com/verasv81/DataBase/blob/master/Laboratory%207/images/Task-6.PNG)
 
 
 7. Modificati 2-3 interogari asupra bazei de date universitatea prezentate in capitolul 4 astfel ca numele tabelelor 
@@ -108,8 +108,8 @@ select Disciplina from plan_studii.discipline as ds
 
 Rezultat:
 
-![Task7-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task-7(1).PNG)
-![Task7-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task-7(2).PNG)
+![Task7-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%207/images/Task-7(1).PNG)
+![Task7-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%207/images/Task-7(2).PNG)
 
 
 8. Creați sinonimele respective pentru a simplifica interogările construite în exercițiul precedent și reformulați interogările, 
@@ -158,5 +158,5 @@ select Disciplina from disciplina1 as ds
 
 Rezultat:
 
-![Task8-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task-8(1).PNG)
-![Task8-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task-8(2).PNG)
+![Task8-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%207/images/Task-8(1).PNG)
+![Task8-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%207/images/Task-8(2).PNG)
