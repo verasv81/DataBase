@@ -1,6 +1,6 @@
-﻿# Laboratorul nr. 5
+﻿# Laboratorul nr. 7
 
-## Transact-SQL: intructiuni procedurale
+## Diagrame, scheme si sinonime
 
 
 Sarcini:
