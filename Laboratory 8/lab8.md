@@ -231,6 +231,34 @@ expresie-tabel recursiv.
 Sa se observe instructiunea de dupa UNION ALL a membrului recursiv, precum si partea de
 pana la UNION ALL reprezentata de membrul-ancora.
 
+``` sql
+use universitatea
+go
+DECLARE @Graph_tab table
+(ID INT,
+prev_ID INT)
+INSERT @Graph_tab
+select 5, null union all
+select 4, null union all
+select 3, null union all
+select 0, 5 union all
+select 2, 4 union all
+select 2, 3 union all
+select 1, 2 union all
+select 0, 1;
+
+with graph_ex6
+as
+(SELECT *, prev_ID as pred_Nod,0 as generation from @Graph_tab where prev_ID IS NULL and ID=3
+	UNION ALL
+		SELECT graph.*,graph_ex6.ID as pred_Nod, generation+1
+			from @Graph_tab as graph
+			inner join graph_ex6
+			on graph.prev_ID=graph_ex6.ID)
+
+SELECT * FROM graph_ex6;
+```
+
 Rezultat:
 
 
