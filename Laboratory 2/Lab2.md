@@ -1,8 +1,11 @@
-# Laboratory work no. 2
+# Laboratory work no. 1
 
 Consist of instaling MS SQL Server 2017, and creating a git repository for Database object.
 
-# Tasks for Laboratory work no. 2
+# Laboratory work no. 2
+
+Tasks:
+
 
 
 
