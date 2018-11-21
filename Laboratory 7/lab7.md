@@ -5,7 +5,7 @@
 
 Sarcini:
 
-1. Creati o diagrama a bazei de date, folosind fonna de vizualizare standard, structura careia este
+1. Creati o diagrama a bazei de date, folosind forma de vizualizare standard, structura careia este
 descrisa la inceputul sarcinilor practice din capitolul 4.
 
 Rezultat:
