@@ -39,56 +39,21 @@ altemativa IF. .. ELSE. Sa se foloseasca variabilele.
 Interogare:
 
 ``` sql
-use universitatea
-go
-DECLARE @Nota1 int, @Nota2 int;
-SET @Nota1=6
-SET @Nota2=8
-if(
-	@Nota1 not in (SELECT top(10) Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1'
-					)
+DECLARE @nota int , @disciplina char(255), @tip_test char(255) 
+SET @disciplina=(SELECT Disciplina FROM discipline where Disciplina='Baze de date') 
+SET @tip_test = (SELECT DISTINCT Tip_Evaluare FROM studenti_reusita where Tip_Evaluare='Testul 1')
 
-	and 
+IF (@nota in (SELECT Nota FROM studenti_reusita WHERE Nota not in (6,8)))
+	PRINT 'There are no students with such characteristics'
 
-	@Nota2 not in (SELECT top(10) Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1' 
-					)
-)
-(
-SELECT top(10) Nume_Student,Prenume_Student, Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1'
-)
+ELSE SELECT  TOP (10) Nume_Student ,Prenume_Student ,Nota
+			FROM studenti, studenti_reusita, discipline
+			WHERE studenti.Id_Student=studenti_reusita.Id_Student
+			and studenti_reusita.Id_Disciplina=discipline.Id_Disciplina
+			and Disciplina=@disciplina
+			and Tip_evaluare=@tip_test
+			ORDER BY Nota DESC;
 
-else (
-SELECT top(10) Nume_Student,Prenume_Student, Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1'
-							and Nota in (@Nota1,@Nota2)
-)
 ```
 
 Rezultat:
@@ -176,84 +141,26 @@ Rezultat(sarcina 1):
 Interogare(sarcina 2):
 
 ``` sql
+SET @disciplina=(SELECT Disciplina FROM plan_studii.discipline where Disciplina='Baze de date') 
+SET @tip_test = (SELECT DISTINCT Tip_Evaluare FROM studenti.studenti_reusita where Tip_Evaluare='Testul 1')
+
 BEGIN TRY
-use universitatea
-SET @Nota1=6
-SET @Nota2=8
-if(
-	@Nota1 not in (SELECT top(10) Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1'
-					)
+IF (@nota in (SELECT Nota FROM studenti.studenti_reusita WHERE Nota not in (6,8)))
+	PRINT 'There are no students with such characteristics'
 
-	and 
-
-	@Nota2 not in (SELECT top(10) Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1' 
-					)
-)
-(
-SELECT top(10) Nume_Student,Prenume_Student, Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1'
-)
-
-else (
-SELECT top(10) Nume_Student,Prenume_Student, Nota
-						from studenti as s
-						inner join studenti_reusita as r
-							on s.Id_Student=r.Id_Student
-						inner join discipline as d
-							on r.Id_Disciplina=d.Id_Disciplina
-						where Disciplina='Baze de date'
-							and Tip_Evaluare='Testul 1'
-							and Nota in (@Nota1,@Nota2)
-)
+ELSE SELECT  TOP (10) Nume_Student ,Prenume_Student ,Nota
+			FROM studenti.studenti, studenti.studenti_reusita, plan_studii.discipline
+			WHERE studenti.Id_Student=studenti_reusita.Id_Student
+			and studenti_reusita.Id_Disciplina=discipline.Id_Disciplina
+			and Disciplina=@disciplina
+			and Tip_evaluare=@tip_test
+			ORDER BY Nota DESC;
 END TRY
 BEGIN CATCH
 	PRINT 'A aparut o eroare la accesarea bazei de date'
 END CATCH
-
-
-SET @Nota1=6
-SET @Nota2=8
-if @Nota1=@Nota2
-	BEGIN 
-		RAISERROR('Verifici aceiasi nota',10,1)
-	END
-else
-BEGIN
-	SELECT top(10)
-	Nume_Student,Prenume_Student, Nota
-		from studenti as s
-		inner join studenti_reusita as r
-			on s.Id_Student=r.Id_Student
-		inner join discipline as d
-			on r.Id_Disciplina=d.Id_Disciplina
-		where Nota!=@Nota1 or Nota!=@Nota2
-			and Disciplina='Baze de date'
-			and Tip_Evaluare='Testul 1'
-END
 ```
 
 Rezultat(sarcina 2):
 
 ![Task4_s2-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-3.PNG)
-
-![Task4_s2-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%205/images/Task4-4.PNG)

@@ -48,3 +48,7 @@ Link: [Laboratory 7](https://github.com/verasv81/DataBase/blob/master/Laboratory
 ## Laboratory 8
 
 Link: [Laboratory 8](https://github.com/verasv81/DataBase/blob/master/Laboratory%208/lab8.md)
+
+## Laboratory 9
+
+Link: [Laboratory 9](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/lab9.md)
