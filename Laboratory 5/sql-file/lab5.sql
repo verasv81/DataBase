@@ -60,11 +60,12 @@ PRINT 'Mai mare = '+CAST(@MAI_MARE AS VARCHAR(2));
 /*4. Modificati exercitiile din sarcinile 1 si 2 pentru a include procesarea erorilor cu TRY si CATCH, si
 RAISERRROR.*/
 --sarcina 1 
-
+DECLARE @N1 INT, @N2 INT, @N3 INT;
+DECLARE	@MAI_MARE INT;
 BEGIN TRY
-	SET @N1=60*RAND();
-	SET @N2=60*RAND();
-	SET @N3=60*RAND();
+	SET @N1=60;
+	SET @N2=60;
+	SET @N3=60;
 
 	SET @MAI_MARE=@N1;
 	IF @N2>@MAI_MARE  SET @MAI_MARE=@N2;
@@ -74,10 +75,12 @@ BEGIN TRY
 	PRINT @N2;
 	PRINT @N3;
 	PRINT 'Mai mare = '+CAST(@MAI_MARE AS VARCHAR(2));
+	SET @N1=@N1/0;
 END TRY
 BEGIN CATCH
 	PRINT 'A aparut o eroare'
-END CATCH
+	PRINT @@ERROR
+	END CATCH
 
 	if @N1=@N2 and @N1=@N3
 	begin

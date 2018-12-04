@@ -139,6 +139,7 @@ maximala posibila este 10). In calitate de parametru de intrare, va servi denumi
 Procedura sa returneze urmatoarele campuri: Cod_ Grupa, Nume_Prenume_Student,
 Disciplina, Nota Veche, Nota Noua.
 */
+
 use universitatea
 go
 drop procedure if exists ex5
@@ -150,7 +151,40 @@ create procedure ex5
 	@Nota_veche decimal(5,2) OUTPUT,
 	@Nota_noua decimal(5,2) OUTPUT
 as
+DECLARE c1 CURSOR FOR 
+SELECT Id_Student FROM studenti
 
+DECLARE @gid int
+  ,@sid int
+  ,@did int
+
+OPEN c1
+FETCH NEXT FROM c1 into @gid 
+WHILE @@FETCH_STATUS = 0
+BEGIN
+SELECT TOP 1 @sid=id_student
+ FROM studenti_reusita
+ WHERE id_grupa = @gid and Id_Student NOT IN (SELECT isnull(sef_grupa,'') FROM grupe)
+ GROUP BY id_student
+ ORDER BY cast(avg (NOTA*1.0)as decimal(5,2)) DESC
+
+SELECT TOP 1 @pid=id_profesor
+    FROM studenti_reusita
+    WHERE id_grupa = @gid AND Id_profesor NOT IN (SELECT isnull (prof_indrumator, '') FROM grupe)
+    GROUP BY id_profesor
+    ORDER BY count (DISTINCT id_disciplina) DESC, id_profesor
+
+UPDATE grupe
+  SET   sef_grupa = @sid
+    ,prof_indrumator = @pid
+WHERE Id_Grupa=@gid
+FETCH NEXT FROM c1 into @gid 
+END
+CLOSE c1
+DEALLOCATE c1
+
+Select *
+from grupe
 
 /*6.Sa se creeze functii definite de utilizator in baza exercitiilor (2 exercitii) din capitolul 4.
 Parametrii de intrare trebuie sa corespunda criteriilor din clauzele WHERE ale exercitiilor
@@ -290,4 +324,7 @@ return;
 end;
 
 
-select * from dbo.goodStudent('CIB171','sarguincios')
+select * from dbo.goodStudent('CIB171','sarguincios');
+
+
+
