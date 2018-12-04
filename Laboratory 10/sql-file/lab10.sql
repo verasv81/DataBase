@@ -45,48 +45,34 @@ INSERT INTO studenti VALUES(189,'Bors','Ion','1997-11-24','mun. Chisinau, str. Z
 modificarea valorilor campului Data_Evaluare, unde valorile acestui camp sunt nenule.
 Declansatorul trebuie sa se lanseze, numai daca sunt afectate datele studentilor din grupa
 "CIB171". Se va afisa un mesaj de avertizare in cazul tentativei de a incalca constrangerea.*/
-
 use universitatea
 go
-if OBJECT_ID('Ex3_1','TR') is not null 
-	drop trigger ex3_1
+if OBJECT_ID('ex3','TR') is not null 
+	drop trigger ex3
 	go
-	create trigger ex3_1 on studenti_reusita
-	after update
-	as
-	set nocount on
-	DECLARE @N decimal(5,2)
-	SET @N=(Select Nota from inserted)
-	if (UPDATE(Nota)) and (@N<(Select distinct Nota from deleted where Id_Student=101))
-		begin
-		print 'Nu se permite de micsorat nota!!!'
-		rollback;
-		end
-go
-
-Update studenti_reusita set Nota=(select Nota where Id_Student=101)-1
-
-use universitatea
-go
-if OBJECT_ID('Ex3_2','TR') is not null 
-	drop trigger ex3_2
-	go
-	create trigger ex3_2 on studenti_reusita
-	after update
-	as 
-	set nocount on
-	if (UPDATE(Data_Evaluare)) and ((select Data_Evaluare from inserted ) is null)
+CREATE TRIGGER ex3 ON studenti_reusita
+AFTER UPDATE
+AS
+SET NOCOUNT ON
+ IF UPDATE(NOTA)
+DECLARE @ID_GRUPA INT = (select Id_Grupa from grupe where Cod_Grupa='CIB171')
+IF (SELECT AVG(NOTA) FROM deleted WHERE Id_Grupa=@ID_GRUPA AND NOTA IS NOT NULL)>(SELECT AVG(NOTA) FROM inserted WHERE Id_Grupa=@ID_GRUPA AND NOTA IS NOT NULL)
+BEGIN
+PRINT('Nu se permite miscrorarea notelor pentru grupa CIB171')
+ROLLBACK TRANSACTION
+END
+if UPDATE(Data_Evaluare)
 		begin 
 		PRINT 'Tentativa de modificare a Datei de evaluare care are valorare null'
 		ROLLBACK;
 	end
-go
+	go
 
-Update studenti_reusita set Data_Evaluare='2019-12-03' where Data_Evaluare is null
+UPDATE studenti_reusita SET Nota=nota-1 WHERE Id_Grupa= (select Id_Grupa from grupe where Cod_Grupa='CIB171')
+UPDATE studenti_reusita SET Data_Evaluare='2018-01-25' WHERE Id_Grupa= (select Id_Grupa from grupe where Cod_Grupa='CIB171')
 
 /*4. Sa se creeze un declansator DDL care ar interzice modificarea coloanei 
-Id_Disciplina in
-tabelele bazei de date universitatea cu afisarea mesajului respectiv.*/
+Id_Disciplina in tabelele bazei de date universitatea cu afisarea mesajului respectiv.*/
 
 USE universitatea
 GO
@@ -109,43 +95,40 @@ go
 
 use universitatea
 go 
-alter table discipline alter column Id_Disciplina varchar(30)
+alter table discipline alter column Id_Disciplina smallint
 
 /*5. Sa se creeze un declansator DDL care ar interzice modificarea schemei bazei de date in afara
 orelor de lucru.*/
-
-USE universitatea
+use universitatea;
 GO
-IF EXISTS (SELECT * FROM sys.triggers WHERE parent_class=0 AND name='Ex5')
-DROP TRIGGER Ex5 ON DATABASE;
+DROP TRIGGER if exists ex5 ON DATABASE
 GO
-CREATE TRIGGER Ex5 ON DATABASE
+CREATE TRIGGER ex5 ON DATABASE 
 FOR ALTER_TABLE
 AS
 SET NOCOUNT ON
-DECLARE @TimpulCurent DATETIME
-DECLARE @LucruIncep DATETIME
-DECLARE @LucruSf DATETIME
+DECLARE @Time_Now DATETIME
+DECLARE @Start_Time DATETIME
+DECLARE @Finish_Time DATETIME
 DECLARE @A FLOAT
 DECLARE @B FLOAT
-SELECT @TimpulCurent = GETDATE()
-SELECT @LucruIncep = '2018-12-28 9:00:00.000'
-SELECT @LucruSf = '2018-12-28 18:00:00.000'
-SELECT @A =(cast(@TimpulCurent as float) - floor(cast(@TimpulCurent as float)))-
-(cast(@LucruIncep as float) - floor(cast(@LucruIncep as FLOAT))),
-@B = (cast(@TimpulCurent as float) - floor(cast(@TimpulCurent as float))) -
-(cast(@LucruSf as float) - floor(cast(@LucruSf as FLOAT)))
-IF @A<0 OR @B>0
+SELECT @Time_Now=GETDATE()
+
+SELECT @Start_Time ='2018-12-03 9:00'
+SELECT @Finish_Time = '2018-12-03 18:00'
+select @A=(cast (@Time_Now as float)-floor(cast(@Time_Now as float)))-
+          (cast(@Start_Time as float)-floor(cast(@Start_Time as float))),
+       @B=(cast(@Time_Now as float)-floor(cast(@Time_Now as float)))-
+	      (cast(@Finish_Time as float)-floor(cast(@Finish_Time as float)))
+IF @A<0 or @B>0
 BEGIN
-Print ('Înafara orelor de lucru nu poate fi modificată baza de date')
-ROLLBACK
+Print('Nu e momentul potrivit pentru a face modificari!')
+ROLLBACK;
 END
 go
 
-use universitatea 
-go
-alter table studenti alter column Nume_Student varchar(50);
-
+alter table orarul 
+add planeta varchar(50)
 
 /*6. Sa se creeze un declansator DDL care, la modificarea proprietatilor coloanei Id_Profesor
 dintr-un tabel, ar face schimbari asemanatoare in mod automat in restul tabelelor.*/
@@ -171,6 +154,7 @@ SELECT @int_I = EVENTDATA().value('(/EVENT_INSTANCE/TSQLCommand/CommandText)[1]'
 SELECT @den_T = EVENTDATA().value('(/EVENT_INSTANCE/ObjectName)[1]','nvarchar(max)')
 SELECT @int_M = REPLACE(@int_I, @den_T, 'studenti_reusita');EXECUTE (@int_M)
 SELECT @int_M = REPLACE(@int_I, @den_T, 'grupe');EXECUTE (@int_M)
+SELECT @int_M = REPLACE(@int_I, @den_T, 'profesori');EXECUTE (@int_M)
 PRINT 'Datele au fost modificate'
 END
 go

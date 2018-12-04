@@ -69,50 +69,39 @@ Declansatorul trebuie sa se lanseze, numai daca sunt afectate datele studentilor
 
 Interogarea:
 ``` sql
-
 use universitatea
 go
-if OBJECT_ID('Ex3_1','TR') is not null 
-	drop trigger ex3_1
+if OBJECT_ID('ex3','TR') is not null 
+	drop trigger ex3
 	go
-	create trigger ex3_1 on studenti_reusita
-	after update
-	as
-	set nocount on
-	DECLARE @N decimal(5,2)
-	SET @N=(Select Nota from inserted)
-	if (UPDATE(Nota)) and (@N<(Select distinct Nota from deleted where Id_Student=101))
-		begin
-		print 'Nu se permite de micsorat nota!!!'
-		rollback;
-		end
-go
-
-Update studenti_reusita set Nota=(select Nota where Id_Student=101)-1
-
-use universitatea
-go
-if OBJECT_ID('Ex3_2','TR') is not null 
-	drop trigger ex3_2
-	go
-	create trigger ex3_2 on studenti_reusita
-	after update
-	as 
-	set nocount on
-	if (UPDATE(Data_Evaluare)) and ((select Data_Evaluare from inserted ) is null)
+CREATE TRIGGER ex3 ON studenti_reusita
+AFTER UPDATE
+AS
+SET NOCOUNT ON
+ IF UPDATE(NOTA)
+DECLARE @ID_GRUPA INT = (select Id_Grupa from grupe where Cod_Grupa='CIB171')
+IF (SELECT AVG(NOTA) FROM deleted WHERE Id_Grupa=@ID_GRUPA AND NOTA IS NOT NULL)>(SELECT AVG(NOTA) FROM inserted WHERE Id_Grupa=@ID_GRUPA AND NOTA IS NOT NULL)
+BEGIN
+PRINT('Nu se permite miscrorarea notelor pentru grupa CIB171')
+ROLLBACK TRANSACTION
+END
+if UPDATE(Data_Evaluare)
 		begin 
 		PRINT 'Tentativa de modificare a Datei de evaluare care are valorare null'
 		ROLLBACK;
 	end
-go
 
-Update studenti_reusita set Data_Evaluare='2019-12-03' where Data_Evaluare is null
+
+UPDATE studenti_reusita SET Nota=nota-1 WHERE Id_Grupa= (select Id_Grupa from grupe where Cod_Grupa='CIB171')
+UPDATE studenti_reusita SET Data_Evaluare='2018-01-25' WHERE Id_Grupa= (select Id_Grupa from grupe where Cod_Grupa='CIB171')
 
 ```
 
 Rezultat:
 
-![Task3](https://github.com/verasv81/DataBase/blob/master/Laboratory%2010/images/Task3.PNG)
+![Task3-1](https://github.com/verasv81/DataBase/blob/master/Laboratory%2010/images/Task3-1.PNG)
+
+![Task3-2](https://github.com/verasv81/DataBase/blob/master/Laboratory%2010/images/Task3-2.PNG)
 
 
 4. Sa se creeze un declansator DDL care ar interzice modificarea coloanei Id_Disciplina in
@@ -154,38 +143,36 @@ orelor de lucru.
 
 Interogarea:
 ``` sql
-
-USE universitatea
+use universitatea;
 GO
-IF EXISTS (SELECT * FROM sys.triggers WHERE parent_class=0 AND name='Ex5')
-DROP TRIGGER Ex5 ON DATABASE;
+DROP TRIGGER if exists ex5 ON DATABASE
 GO
-CREATE TRIGGER Ex5 ON DATABASE
+CREATE TRIGGER ex5 ON DATABASE 
 FOR ALTER_TABLE
 AS
 SET NOCOUNT ON
-DECLARE @TimpulCurent DATETIME
-DECLARE @LucruIncep DATETIME
-DECLARE @LucruSf DATETIME
+DECLARE @Time_Now DATETIME
+DECLARE @Start_Time DATETIME
+DECLARE @Finish_Time DATETIME
 DECLARE @A FLOAT
 DECLARE @B FLOAT
-SELECT @TimpulCurent = GETDATE()
-SELECT @LucruIncep = '2018-12-28 9:00:00.000'
-SELECT @LucruSf = '2018-12-28 18:00:00.000'
-SELECT @A =(cast(@TimpulCurent as float) - floor(cast(@TimpulCurent as float)))-
-(cast(@LucruIncep as float) - floor(cast(@LucruIncep as FLOAT))),
-@B = (cast(@TimpulCurent as float) - floor(cast(@TimpulCurent as float))) -
-(cast(@LucruSf as float) - floor(cast(@LucruSf as FLOAT)))
-IF @A<0 OR @B>0
+SELECT @Time_Now=GETDATE()
+
+SELECT @Start_Time ='2018-12-03 9:00'
+SELECT @Finish_Time = '2018-12-03 18:00'
+select @A=(cast (@Time_Now as float)-floor(cast(@Time_Now as float)))-
+          (cast(@Start_Time as float)-floor(cast(@Start_Time as float))),
+       @B=(cast(@Time_Now as float)-floor(cast(@Time_Now as float)))-
+	      (cast(@Finish_Time as float)-floor(cast(@Finish_Time as float)))
+IF @A<0 or @B>0
 BEGIN
-Print ('Înafara orelor de lucru nu poate fi modificata baza de date')
-ROLLBACK
+Print('Nu e momentul potrivit pentru a face modificari!')
+ROLLBACK;
 END
 go
 
-use universitatea 
-go
-alter table studenti alter column Nume_Student varchar(50);
+alter table orarul 
+add planeta varchar(50)
 ```
 
 Rezultat:
