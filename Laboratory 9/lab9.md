@@ -179,7 +179,7 @@ select * from discipline where Id_Disciplina=107
 
 
 Rezultat:
-![Task4](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task4.PNG)
+![Task4](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task-4.PNG)
 
 5. Sa se creeze o procedura stocata care ar forma o lista cu primii 3 cei mai buni studenti la o
 disciplina, si acestor studenti sa le fie marita nota la examenul final cu un punct (nota
@@ -190,12 +190,40 @@ Disciplina, Nota Veche, Nota Noua.
 Interogare:
 
 ``` sql
+DROP PROCEDURE IF EXISTS ex5
+GO
+CREATE PROCEDURE ex5 
+@disciplina VARCHAR(50)
+AS
+DECLARE @stud_list TABLE (Id_Student int, Media float)
+INSERT INTO @stud_list
+	SELECT TOP (3) Id_Student, AVG(cast (Nota as float)) as Media
+	FROM studenti_reusita, discipline
+	WHERE discipline.Id_Disciplina = studenti_reusita.Id_Disciplina
+	AND Disciplina = @disciplina
+	GROUP BY studenti_reusita.Id_Student
+	ORDER BY Media desc		
 
+SELECT cod_grupa, studenti.Id_Student, CONCAT(nume_student, ' ', Prenume_Student) as Nume, Disciplina, nota AS Nota_Veche, iif(nota > 9, 10, nota + 1) AS Nota_Noua 
+	FROM studenti_reusita, discipline, grupe, studenti WHERE discipline.id_disciplina = studenti_reusita.id_disciplina
+	AND grupe.Id_Grupa = studenti_reusita.Id_Grupa
+	AND  studenti.Id_Student = studenti_reusita.Id_Student
+	AND studenti.Id_Student in (select Id_Student from @stud_list)
+	AND Disciplina = @disciplina
+	AND Tip_Evaluare = 'Examen'
+
+DECLARE @id_dis SMALLINT = (SELECT  Id_Disciplina  FROM discipline WHERE   Disciplina = @disciplina)
+
+UPDATE studenti_reusita SET Nota = (CASE WHEN nota >= 9 THEN 10 ELSE nota + 1 END)
+WHERE Tip_Evaluare = 'Examen' AND Id_Disciplina = @id_dis AND Id_Student in (select Id_Student from @stud_list)
+go
+
+execute ex5 @disciplina = 'Structuri de date si algoritmi'
 ```
 
 
 Rezultat:
-![Task5](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task5.PNG)
+![Task5](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task-5.PNG)
 
 6. Sa se creeze functii definite de utilizator in baza exercitiilor (2 exercitii) din capitolul 4.
 Parametrii de intrare trebuie sa corespunda criteriilor din clauzele WHERE ale exercitiilor

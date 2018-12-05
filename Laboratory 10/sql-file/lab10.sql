@@ -79,19 +79,22 @@ GO
 IF EXISTS (SELECT * FROM sys.triggers WHERE parent_class=0 AND name='Ex4')
 DROP TRIGGER Ex4 ON DATABASE;
 GO
-CREATE TRIGGER Ex4
+CREATE TRIGGER Ex4 
 ON DATABASE
-FOR ALTER_TABLE
+FOR DDL_TABLE_EVENTS
 AS
-SET NOCOUNT ON
-DECLARE @Id_Disciplina int
-SELECT @Id_Disciplina=EVENTDATA().value('(/EVENT_INSTANCE/AlterTableActionList/*/Columns/Name)[1]', 'nvarchar(max)')
-IF @Id_Disciplina='Id_Disciplina'
+DECLARE @EventData      xml
+SET @EventData=EVENTDATA()
+
+IF @EventData.value('(/EVENT_INSTANCE/ObjectType)[1]', 'varchar(50)')='TABLE'
+    AND @EventData.value('(/EVENT_INSTANCE/ObjectName)[1]', 'varchar(50)') ='dicipline'
 BEGIN
 PRINT('Nu poate fi modificata coloana Id_Disciplina');
 ROLLBACK;
 END
 go
+
+select * from discipline
 
 use universitatea
 go 

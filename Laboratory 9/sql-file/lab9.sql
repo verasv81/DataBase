@@ -139,52 +139,35 @@ maximala posibila este 10). In calitate de parametru de intrare, va servi denumi
 Procedura sa returneze urmatoarele campuri: Cod_ Grupa, Nume_Prenume_Student,
 Disciplina, Nota Veche, Nota Noua.
 */
+DROP PROCEDURE IF EXISTS ex5
+GO
+CREATE PROCEDURE ex5 
+@disciplina VARCHAR(50)
+AS
+DECLARE @stud_list TABLE (Id_Student int, Media float)
+INSERT INTO @stud_list
+	SELECT TOP (3) Id_Student, AVG(cast (Nota as float)) as Media
+	FROM studenti_reusita, discipline
+	WHERE discipline.Id_Disciplina = studenti_reusita.Id_Disciplina
+	AND Disciplina = @disciplina
+	GROUP BY studenti_reusita.Id_Student
+	ORDER BY Media desc		
 
-use universitatea
+SELECT cod_grupa, studenti.Id_Student, CONCAT(nume_student, ' ', Prenume_Student) as Nume, Disciplina, nota AS Nota_Veche, iif(nota > 9, 10, nota + 1) AS Nota_Noua 
+	FROM studenti_reusita, discipline, grupe, studenti WHERE discipline.id_disciplina = studenti_reusita.id_disciplina
+	AND grupe.Id_Grupa = studenti_reusita.Id_Grupa
+	AND  studenti.Id_Student = studenti_reusita.Id_Student
+	AND studenti.Id_Student in (select Id_Student from @stud_list)
+	AND Disciplina = @disciplina
+	AND Tip_Evaluare = 'Examen'
+
+DECLARE @id_dis SMALLINT = (SELECT  Id_Disciplina  FROM discipline WHERE   Disciplina = @disciplina)
+
+UPDATE studenti_reusita SET Nota = (CASE WHEN nota >= 9 THEN 10 ELSE nota + 1 END)
+WHERE Tip_Evaluare = 'Examen' AND Id_Disciplina = @id_dis AND Id_Student in (select Id_Student from @stud_list)
 go
-drop procedure if exists ex5
-go
-create procedure ex5
-	@Disciplina varchar(30),
-	@Cod_Grupa varchar(8) OUTPUT,
-	@Nume_Prenume_Student varchar(80) OUTPUT,
-	@Nota_veche decimal(5,2) OUTPUT,
-	@Nota_noua decimal(5,2) OUTPUT
-as
-DECLARE c1 CURSOR FOR 
-SELECT Id_Student FROM studenti
 
-DECLARE @gid int
-  ,@sid int
-  ,@did int
-
-OPEN c1
-FETCH NEXT FROM c1 into @gid 
-WHILE @@FETCH_STATUS = 0
-BEGIN
-SELECT TOP 1 @sid=id_student
- FROM studenti_reusita
- WHERE id_grupa = @gid and Id_Student NOT IN (SELECT isnull(sef_grupa,'') FROM grupe)
- GROUP BY id_student
- ORDER BY cast(avg (NOTA*1.0)as decimal(5,2)) DESC
-
-SELECT TOP 1 @pid=id_profesor
-    FROM studenti_reusita
-    WHERE id_grupa = @gid AND Id_profesor NOT IN (SELECT isnull (prof_indrumator, '') FROM grupe)
-    GROUP BY id_profesor
-    ORDER BY count (DISTINCT id_disciplina) DESC, id_profesor
-
-UPDATE grupe
-  SET   sef_grupa = @sid
-    ,prof_indrumator = @pid
-WHERE Id_Grupa=@gid
-FETCH NEXT FROM c1 into @gid 
-END
-CLOSE c1
-DEALLOCATE c1
-
-Select *
-from grupe
+execute ex5 @disciplina = 'Structuri de date si algoritmi'
 
 /*6.Sa se creeze functii definite de utilizator in baza exercitiilor (2 exercitii) din capitolul 4.
 Parametrii de intrare trebuie sa corespunda criteriilor din clauzele WHERE ale exercitiilor
