@@ -296,7 +296,7 @@ create function calculateAge(@Data_Nastere date)
 
 
 Rezultat:
-![Task7](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task7.PNG)
+![Task7](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task-7.PNG)
 
 8. Sa se creeze o functie definita de utilizator, care ar returna datele referitoare la reusita unui
 student. Se defineste urmatorul format al functiei: <nume Functie>
@@ -328,7 +328,7 @@ Select * from reusitaStudent('Dan','David')
 
 
 Rezultat:
-![Task8](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task8.PNG)
+![Task8](https://github.com/verasv81/DataBase/blob/master/Laboratory%209/images/Task-8.PNG)
 
 9. Se cere realizarea unei functii definite de utilizator, care ar gasi cel mai sarguincios sau cel
 mai slab student dintr-o grupa. Se defineste urmatorul format al functiei: <numeFunctie>
