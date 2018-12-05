@@ -292,6 +292,9 @@ create function calculateAge(@Data_Nastere date)
 			SELECT @age=(CONVERT(int,CONVERT(char(8),@Now,112))-CONVERT(char(8),@Data_Nastere,112))/10000;
 			return @age;
 		end;
+
+
+	select dbo.calculateAge('1997-07-01') as Varsta
 ```
 
 

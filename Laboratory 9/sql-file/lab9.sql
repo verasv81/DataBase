@@ -223,6 +223,8 @@ create function calculateAge(@Data_Nastere date)
 			return @age;
 		end;
 
+	select dbo.calculateAge('1997-07-01') as Varsta
+
 /*8. Sa se creeze o functie definita de utilizator, care ar returna datele referitoare la reusita unui
 student. Se defineste urmatorul format al functiei: <nume Functie>
 (<Nume_Prenume_Student>). Sa fie afisat tabelul cu urmatoarele campuri:
