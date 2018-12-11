@@ -74,31 +74,23 @@ UPDATE studenti_reusita SET Data_Evaluare='2018-01-25' WHERE Id_Grupa= (select I
 /*4. Sa se creeze un declansator DDL care ar interzice modificarea coloanei 
 Id_Disciplina in tabelele bazei de date universitatea cu afisarea mesajului respectiv.*/
 
-USE universitatea
+DROP TRIGGER IF EXISTS ex4 ON DATABASE;  
 GO
-IF EXISTS (SELECT * FROM sys.triggers WHERE parent_class=0 AND name='Ex4')
-DROP TRIGGER Ex4 ON DATABASE;
-GO
-CREATE TRIGGER Ex4 
-ON DATABASE
-FOR DDL_TABLE_EVENTS
+CREATE TRIGGER ex4
+on database
+for ALTER_TABLE
 AS
-DECLARE @EventData      xml
-SET @EventData=EVENTDATA()
-
-IF @EventData.value('(/EVENT_INSTANCE/ObjectType)[1]', 'varchar(50)')='TABLE'
-    AND @EventData.value('(/EVENT_INSTANCE/ObjectName)[1]', 'varchar(50)') ='dicipline'
+SET NOCOUNT ON
+DECLARE @Disciplina varchar(50)
+SET @Disciplina =EVENTDATA(). value('(/EVENT_INSTANCE/AlterTableActionList/*/Columns/Name)[1]','nvarchar(max)')
+IF @Disciplina='Disciplina'
 BEGIN
-PRINT('Nu poate fi modificata coloana Id_Disciplina');
+PRINT ('Coloana Disciplina nu poate fi modificată');
 ROLLBACK;
 END
-go
+GO
 
-select * from discipline
-
-use universitatea
-go 
-alter table discipline alter column Id_Disciplina smallint
+alter table discipline alter column Disciplina varchar(50)
 
 /*5. Sa se creeze un declansator DDL care ar interzice modificarea schemei bazei de date in afara
 orelor de lucru.*/
@@ -145,22 +137,20 @@ CREATE TRIGGER Ex_6 ON DATABASE
 FOR ALTER_TABLE
 AS
 SET NOCOUNT ON
-DECLARE @id int
+DECLARE @nume varchar(50)
 DECLARE @int_I varchar(500)
 DECLARE @int_M varchar(500)
 DECLARE @den_T varchar(50)
-SELECT @id=EVENTDATA().
+SELECT @nume=EVENTDATA().
 value('(/EVENT_INSTANCE/AlterTableActionList/*/Columns/Name)[1]','nvarchar(max)')
-IF @id = 'Id_Profesor'
+IF @nume = 'Nume_Profesor'
 BEGIN
 SELECT @int_I = EVENTDATA().value('(/EVENT_INSTANCE/TSQLCommand/CommandText)[1]','nvarchar(max)')
 SELECT @den_T = EVENTDATA().value('(/EVENT_INSTANCE/ObjectName)[1]','nvarchar(max)')
-SELECT @int_M = REPLACE(@int_I, @den_T, 'studenti_reusita');EXECUTE (@int_M)
-SELECT @int_M = REPLACE(@int_I, @den_T, 'grupe');EXECUTE (@int_M)
 SELECT @int_M = REPLACE(@int_I, @den_T, 'profesori');EXECUTE (@int_M)
 PRINT 'Datele au fost modificate'
 END
 go
 
 use universitatea
-alter table profesori alter column Id_Profesor smallint
+alter table profesori alter column Nume_Profesor varchar(50)

@@ -109,28 +109,23 @@ tabelele bazei de date universitatea cu afisarea mesajului respectiv.
 
 Interogarea:
 ``` sql
-USE universitatea
+DROP TRIGGER IF EXISTS ex4 ON DATABASE;  
 GO
-IF EXISTS (SELECT * FROM sys.triggers WHERE parent_class=0 AND name='Ex4')
-DROP TRIGGER Ex4 ON DATABASE;
-GO
-CREATE TRIGGER Ex4
-ON DATABASE
-FOR ALTER_TABLE
+CREATE TRIGGER ex4
+on database
+for ALTER_TABLE
 AS
 SET NOCOUNT ON
-DECLARE @Id_Disciplina int
-SELECT @Id_Disciplina=EVENTDATA().value('(/EVENT_INSTANCE/AlterTableActionList/*/Columns/Name)[1]', 'nvarchar(max)')
-IF @Id_Disciplina='Id_Disciplina'
+DECLARE @Disciplina varchar(50)
+SET @Disciplina =EVENTDATA(). value('(/EVENT_INSTANCE/AlterTableActionList/*/Columns/Name)[1]','nvarchar(max)')
+IF @Disciplina='Disciplina'
 BEGIN
-PRINT('Nu poate fi modificata coloana Id_Disciplina');
+PRINT ('Coloana Disciplina nu poate fi modificata');
 ROLLBACK;
 END
-go
+GO
 
-use universitatea
-go 
-alter table discipline alter column Id_Disciplina varchar(30)
+alter table discipline alter column Disciplina varchar(50)
 ```
 
 Rezultat:
@@ -193,24 +188,23 @@ CREATE TRIGGER Ex_6 ON DATABASE
 FOR ALTER_TABLE
 AS
 SET NOCOUNT ON
-DECLARE @id int
+DECLARE @nume varchar(50)
 DECLARE @int_I varchar(500)
 DECLARE @int_M varchar(500)
 DECLARE @den_T varchar(50)
-SELECT @id=EVENTDATA().
+SELECT @nume=EVENTDATA().
 value('(/EVENT_INSTANCE/AlterTableActionList/*/Columns/Name)[1]','nvarchar(max)')
-IF @id = 'Id_Profesor'
+IF @nume = 'Nume_Profesor'
 BEGIN
 SELECT @int_I = EVENTDATA().value('(/EVENT_INSTANCE/TSQLCommand/CommandText)[1]','nvarchar(max)')
 SELECT @den_T = EVENTDATA().value('(/EVENT_INSTANCE/ObjectName)[1]','nvarchar(max)')
-SELECT @int_M = REPLACE(@int_I, @den_T, 'studenti_reusita');EXECUTE (@int_M)
-SELECT @int_M = REPLACE(@int_I, @den_T, 'grupe');EXECUTE (@int_M)
+SELECT @int_M = REPLACE(@int_I, @den_T, 'profesori');EXECUTE (@int_M)
 PRINT 'Datele au fost modificate'
 END
 go
 
 use universitatea
-alter table profesori alter column Id_Profesor smallint
+alter table profesori alter column Nume_Profesor varchar(50)
 ```
 
 Rezultat:
