@@ -5,9 +5,8 @@
 
 Sarcini:
 
-1. Sa se creeze doua viziuni in baza interogarilor formulate in doua exercitii indicate din capitolul 4. 
-Prima viziune sa fie construita in Editorul de interogari, iar a doua, utilizand View Designer.
-
+1. Sa se creeze proceduri stocate in baza exercitiilor (2 exercitii) din capitolul 4. Parametrii de
+intrare trebuie sa corespunda criteriilor din clauzele WHERE ale exercitiilor respective 
 Interogare:
 
 ``` sql
